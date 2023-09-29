@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookingMedia.Recipe.EntityModels", "CookingMedia.Recipe.EntityModels\CookingMedia.Recipe.EntityModels.csproj", "{3AA2C63A-E4DA-4C3A-9D0D-65FA7534FE24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookingMedia.Recipe.Repositories", "CookingMedia.Recipe.Repositories\CookingMedia.Recipe.Repositories.csproj", "{8A3E6619-4A1C-43FA-82AA-E25595884E5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookingMedia.Recipe.Services", "CookingMedia.Recipe.Services\CookingMedia.Recipe.Services.csproj", "{95B5FD46-756F-4602-99D7-0A4B28969477}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookingMedia.Recipe.Api", "CookingMedia.Recipe.Api\CookingMedia.Recipe.Api.csproj", "{119677F9-7247-45F7-9E9F-B62A0B12755D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3AA2C63A-E4DA-4C3A-9D0D-65FA7534FE24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AA2C63A-E4DA-4C3A-9D0D-65FA7534FE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AA2C63A-E4DA-4C3A-9D0D-65FA7534FE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AA2C63A-E4DA-4C3A-9D0D-65FA7534FE24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A3E6619-4A1C-43FA-82AA-E25595884E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A3E6619-4A1C-43FA-82AA-E25595884E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A3E6619-4A1C-43FA-82AA-E25595884E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A3E6619-4A1C-43FA-82AA-E25595884E5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95B5FD46-756F-4602-99D7-0A4B28969477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95B5FD46-756F-4602-99D7-0A4B28969477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95B5FD46-756F-4602-99D7-0A4B28969477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95B5FD46-756F-4602-99D7-0A4B28969477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{119677F9-7247-45F7-9E9F-B62A0B12755D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{119677F9-7247-45F7-9E9F-B62A0B12755D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{119677F9-7247-45F7-9E9F-B62A0B12755D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{119677F9-7247-45F7-9E9F-B62A0B12755D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
