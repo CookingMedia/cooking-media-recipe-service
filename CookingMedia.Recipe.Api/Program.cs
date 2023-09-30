@@ -1,12 +1,16 @@
+using CookingMedia.Recipe.Api;
 using CookingMedia.Recipe.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Additional configuration is required to successfully run gRPC on macOS.
-// For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
+var serviceHost = builder.Configuration.GetSection("Services");
+builder.Services.AddGrpcClient<Greeter.GreeterClient>(o =>
+{
+    o.Address = serviceHost.GetValue<Uri>("IngredientHost");
+});
 
 // Add services to the container.
-builder.Services.AddGrpc();
+builder.Services.AddGrpc().AddJsonTranscoding();
 
 var app = builder.Build();
 
