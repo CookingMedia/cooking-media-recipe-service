@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CookingMedia.Recipe.Repositories\CookingMedia.Recipe.Repositories.csproj" />
+    </ItemGroup>
+
 </Project>
