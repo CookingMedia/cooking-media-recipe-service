@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option csharp_namespace = "CookingMedia.Recipe.Api";
+import "Google/Api/annotations.proto";
+import "model.proto";
+package greet;
+
+service RecipeController {
+  // TODO: create, read one, read list filter, update, delete recipe
+  // TODO: get list of recipe step
+  // TODO: get list of recipe amount
+}
