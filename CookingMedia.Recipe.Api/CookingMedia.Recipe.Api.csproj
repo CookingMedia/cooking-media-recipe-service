@@ -51,5 +51,4 @@
     <ItemGroup>
       <ProjectReference Include="..\CookingMedia.Recipe.Services\CookingMedia.Recipe.Services.csproj" />
     </ItemGroup>
-
 </Project>

@@ -12,3 +12,15 @@ message HelloRequest {
 message HelloReply {
   string message = 1;
 }
+
+message Ingredient {
+  int32 id = 1;
+  int32 ingredient_category_id = 2;
+  string name = 3;
+  string image = 4;
+}
+
+message IngredientCategory {
+  int32 id = 1;
+  string name = 2;
+}
