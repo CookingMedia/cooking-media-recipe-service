@@ -6,8 +6,7 @@ public class UnitOfWork : IDisposable
 {
     private readonly CookingMediaRecipeDbContext _context = new();
     private RecipeRepository? _recipeRepository;
-    public RecipeRepository RecipeRepository =>
-        _recipeRepository ??= new RecipeRepository(_context);
+    public RecipeRepository Recipes => _recipeRepository ??= new RecipeRepository(_context);
 
     public async Task SaveAsync()
     {
