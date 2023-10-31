@@ -4,10 +4,10 @@ namespace CookingMedia.Recipe.Services;
 
 public class RecipeService
 {
-    private readonly RecipeRepository _recipeRepository;
+    private readonly UnitOfWork _unitOfWork;
 
-    public RecipeService(RecipeRepository recipeRepository)
+    public RecipeService(UnitOfWork unitOfWork)
     {
-        _recipeRepository = recipeRepository;
+        _unitOfWork = unitOfWork;
     }
 }
