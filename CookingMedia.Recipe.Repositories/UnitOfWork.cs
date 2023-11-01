@@ -8,6 +8,10 @@ public class UnitOfWork : IDisposable
     private RecipeRepository? _recipeRepository;
     public RecipeRepository Recipes => _recipeRepository ??= new RecipeRepository(_context);
 
+    private CookingMethodRepository _cookingMethodRepository;
+    public CookingMethodRepository CookingMethods =>
+        _cookingMethodRepository ?? new CookingMethodRepository(_context);
+
     public async Task SaveAsync()
     {
         await _context.SaveChangesAsync();

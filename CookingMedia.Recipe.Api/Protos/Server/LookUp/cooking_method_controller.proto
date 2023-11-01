@@ -1,1 +1,78 @@
 // TODO: create, read one, read list filter, update, delete recipe cooking method
+syntax = "proto3";
+
+option csharp_namespace = "CookingMedia.Recipe.Api";
+import "Google/Api/annotations.proto";
+import "model.proto";
+package greet;
+
+service CookingMethodController {
+  rpc Get (GetCookingMethodModel) returns (CookingMethodModel) {
+    option (google.api.http) = {
+      get: "/api/cooking-methods/{id}"
+    };
+  };
+  
+  rpc Search (SearchCookingMethodModel) returns (SearchCookingMethodResult) {
+    option (google.api.http) = {
+      get: "/api/cooking-methods/{id}"
+    };
+  };
+  
+  rpc Add (AddCookingMethodModel) returns (AddCookingMethodResult) {
+    option (google.api.http) = {
+      post: "/api/cooking-methods/{id}"
+      body: "*"
+    };
+  };
+  
+  rpc Update (GetCookingMethodModel) returns (CookingMethodModel) {
+    option (google.api.http) = {
+      put: "/api/cooking-methods/{id}"
+      body: "*"
+    };
+  };
+  
+  rpc Delete (GetCookingMethodModel) returns (CookingMethodModel) {
+    option (google.api.http) = {
+      get: "/api/cooking-methods/{id}"
+    };
+  };
+}
+
+message SearchCookingMethodModel {
+  string name = 1;
+}
+
+message SearchCookingMethodResult {
+  repeated CookingMethodModel result = 1;
+}
+
+message GetCookingMethodModel {
+  int32 id = 1;
+}
+
+message CookingMethodModel {
+  int32 id = 1;
+  string name = 2;
+  string status = 3;
+}
+
+message AddCookingMethodModel {
+  string name = 1;
+  string status = 2;
+}
+
+message AddCookingMethodResult {
+  int32 id = 1;
+}
+
+message UpdateCookingMethodModel {
+  int32 id = 1;
+  string name = 2;
+  string status = 3;
+}
+
+message UpdateCookingMethodResult {
+  int32 id = 1;
+}
