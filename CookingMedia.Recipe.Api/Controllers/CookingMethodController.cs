@@ -2,6 +2,7 @@
 using CookingMedia.Recipe.EntityModels.LookUp;
 using CookingMedia.Recipe.Services;
 using Grpc.Core;
+using Status = Grpc.Core.Status;
 
 namespace CookingMedia.Recipe.Api.Controllers;
 
@@ -20,6 +21,10 @@ public class CookingMethodController : Api.CookingMethodController.CookingMethod
     )
     {
         var cookingMethod = _cookingMethodService.GetById(request.Id);
+        if (cookingMethod == null)
+            throw new RpcException(
+                new Status(StatusCode.NotFound, $"Cooking method not found. Id {request.Id}")
+            );
         var result = new CookingMethodModel
         {
             Id = cookingMethod.Id,
@@ -42,7 +47,11 @@ public class CookingMethodController : Api.CookingMethodController.CookingMethod
         ServerCallContext context
     )
     {
-        CookingMethodStatus.TryParse<CookingMethodStatus>(request.Status, out var status);
+        var parseResult = Enum.TryParse<CookingMethodStatus>(request.Status, out var status);
+        if (!parseResult)
+            throw new RpcException(
+                new Status(StatusCode.InvalidArgument, $"Unknown status {request.Status}")
+            );
         var cookingMethod = new CookingMethod { Name = request.Name, Status = status };
 
         _cookingMethodService.Add(cookingMethod);
