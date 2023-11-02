@@ -2,4 +2,6 @@
 
 public enum CookingMethodStatus
 {
+    Enable,
+    Disable
 }

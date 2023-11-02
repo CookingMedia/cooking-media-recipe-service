@@ -41,6 +41,11 @@ public class GenericRepository<TEntity>
         return DbSet.Find(id);
     }
 
+    public virtual bool ExistById(object id)
+    {
+        return DbSet.Any(x => x.Id == (int)id);
+    }
+
     public virtual void Insert(TEntity entity)
     {
         DbSet.Add(entity);
