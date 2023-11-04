@@ -25,6 +25,7 @@ public class CookingMethodService
     public void Add(CookingMethod cookingMethod)
     {
         _unitOfWork.CookingMethods.Insert(cookingMethod);
+        _unitOfWork.Save();
     }
 
     public IEnumerable<CookingMethod> Search(string name)
@@ -35,10 +36,12 @@ public class CookingMethodService
     public void Update(CookingMethod cookingMethod)
     {
         _unitOfWork.CookingMethods.Update(cookingMethod);
+        _unitOfWork.Save();
     }
 
     public void Delete(int Id)
     {
         _unitOfWork.CookingMethods.Delete(Id);
+        _unitOfWork.Save();
     }
 }
