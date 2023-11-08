@@ -25,7 +25,7 @@ message IngredientCategory {
   string name = 2;
 }
 
-enum Status {
+enum StatusModel {
   Enable = 0;
   Disable = 1;
 }
