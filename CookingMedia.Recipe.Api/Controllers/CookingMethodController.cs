@@ -1,17 +1,21 @@
-﻿using CookingMedia.Recipe.EntityModels.Enum;
+﻿using AutoMapper;
+using CookingMedia.Recipe.EntityModels.Enum;
 using CookingMedia.Recipe.EntityModels.LookUp;
 using CookingMedia.Recipe.Services;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Status = Grpc.Core.Status;
+using Enum = System.Enum;
 
 namespace CookingMedia.Recipe.Api.Controllers;
 
 public class CookingMethodController : Api.CookingMethodController.CookingMethodControllerBase
 {
+    private readonly IMapper _mapper;
     private readonly CookingMethodService _cookingMethodService;
 
-    public CookingMethodController(CookingMethodService cookingMethodService)
+    public CookingMethodController(IMapper mapper, CookingMethodService cookingMethodService)
     {
+        _mapper = mapper;
         _cookingMethodService = cookingMethodService;
     }
 
@@ -25,11 +29,12 @@ public class CookingMethodController : Api.CookingMethodController.CookingMethod
             throw new RpcException(
                 new Status(StatusCode.NotFound, $"Cooking method not found. Id {request.Id}")
             );
+        Enum.TryParse<Model.Status>(cookingMethod.Status.ToString(), true, out var status);
         var result = new CookingMethodModel
         {
             Id = cookingMethod.Id,
             Name = cookingMethod.Name,
-            Status = cookingMethod.Status.ToString(),
+            Status = status,
         };
         return Task.FromResult(result);
     }
@@ -39,7 +44,11 @@ public class CookingMethodController : Api.CookingMethodController.CookingMethod
         ServerCallContext context
     )
     {
-        return base.Search(request, context);
+        var cookingMethods = _cookingMethodService
+            .Search(request.Name)
+            .Select(x => _mapper.Map<CookingMethodModel>(x));
+        var result = new SearchCookingMethodResult { Result = { cookingMethods }, };
+        return Task.FromResult(result);
     }
 
     public override Task<AddCookingMethodResult> Add(
@@ -47,12 +56,11 @@ public class CookingMethodController : Api.CookingMethodController.CookingMethod
         ServerCallContext context
     )
     {
-        var parseResult = Enum.TryParse<CookingMethodStatus>(request.Status, out var status);
-        if (!parseResult)
-            throw new RpcException(
-                new Status(StatusCode.InvalidArgument, $"Unknown status {request.Status}")
-            );
-        var cookingMethod = new CookingMethod { Name = request.Name, Status = status };
+        var cookingMethod = new CookingMethod
+        {
+            Name = request.Name,
+            Status = CookingMethodStatus.Enable
+        };
 
         _cookingMethodService.Add(cookingMethod);
 
@@ -60,19 +68,21 @@ public class CookingMethodController : Api.CookingMethodController.CookingMethod
         return Task.FromResult(result);
     }
 
-    public override Task<CookingMethodModel> Update(
-        GetCookingMethodModel request,
-        ServerCallContext context
-    )
+    public override Task<Empty> Update(UpdateCookingMethodModel request, ServerCallContext context)
     {
-        return base.Update(request, context);
+        if (_cookingMethodService.ExistById(request.Id))
+            throw new RpcException(
+                new Status(StatusCode.NotFound, $"Cooking method not found. Id {request.Id}")
+            );
+
+        var cookingMethod = _mapper.Map<CookingMethod>(request);
+        _cookingMethodService.Update(cookingMethod);
+        return Task.FromResult(new Empty());
     }
 
-    public override Task<CookingMethodModel> Delete(
-        GetCookingMethodModel request,
-        ServerCallContext context
-    )
+    public override Task<Empty> Delete(GetCookingMethodModel request, ServerCallContext context)
     {
-        return base.Delete(request, context);
+        _cookingMethodService.Delete(request.Id);
+        return Task.FromResult(new Empty());
     }
 }
