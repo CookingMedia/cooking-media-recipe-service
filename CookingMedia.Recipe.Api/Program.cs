@@ -1,3 +1,4 @@
+using CookingMedia.Recipe.Api;
 using CookingMedia.Recipe.Api.Client;
 using CookingMedia.Recipe.Api.Services;
 using CookingMedia.Recipe.Repositories;
@@ -11,9 +12,14 @@ builder.Services.AddGrpcClient<IngredientGreeter.IngredientGreeterClient>(o =>
     o.Address = serviceHost.GetValue<Uri>("IngredientHost");
 });
 
+builder.Services.AddAutoMapper(typeof(MapperProfile));
+
 // Add services to the container.
 builder.Services.AddGrpc().AddJsonTranscoding();
-builder.Services.AddTransient<UnitOfWork>().AddScoped<RecipeService>();
+builder.Services
+    .AddTransient<UnitOfWork>()
+    .AddScoped<RecipeService>()
+    .AddScoped<CookingMethodService>();
 
 var app = builder.Build();
 

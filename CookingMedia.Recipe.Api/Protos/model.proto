@@ -52,3 +52,8 @@ message IngredientCategory {
   int32 id = 1;
   string name = 2;
 }
+
+enum StatusModel {
+  Enable = 0;
+  Disable = 1;
+}
