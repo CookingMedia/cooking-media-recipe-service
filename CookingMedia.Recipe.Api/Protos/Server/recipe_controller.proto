@@ -2,6 +2,7 @@ syntax = "proto3";
 
 option csharp_namespace = "CookingMedia.Recipe.Api";
 import "Google/Api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "model.proto";
 package greet;
 
@@ -9,12 +10,22 @@ service RecipeController {
   // TODO: create, read one, read list filter, update, delete recipe
   // TODO: get list of recipe step
   // TODO: get list of recipe amount
+  rpc Search (google.protobuf.Empty) returns (SearchRecipeResponse) {
+	option (google.api.http) = {
+	  get: "/api/recipes"
+	};
+  };
+
   rpc Add (AddRecipeRequest) returns (RecipeModel) {
 	option (google.api.http) = {
-	  post: "/api/recipe"
+	  post: "/api/recipes"
 	  body: "*"
 	};
   };
+}
+
+message SearchRecipeResponse {
+	repeated RecipeModel recipes = 1;
 }
 
 message AddRecipeRequest {
