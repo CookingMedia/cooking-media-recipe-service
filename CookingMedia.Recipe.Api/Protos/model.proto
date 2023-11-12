@@ -41,6 +41,12 @@ message RecipeModel {
 	}
 }
 
+message CookingMethodModel {
+  int32 id = 1;
+  string name = 2;
+  StatusModel status = 3;
+}
+
 message Ingredient {
   int32 id = 1;
   int32 ingredient_category_id = 2;

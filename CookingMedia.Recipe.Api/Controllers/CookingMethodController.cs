@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CookingMedia.Recipe.Api.Model;
 using CookingMedia.Recipe.EntityModels.Enum;
 using CookingMedia.Recipe.EntityModels.LookUp;
 using CookingMedia.Recipe.Services;

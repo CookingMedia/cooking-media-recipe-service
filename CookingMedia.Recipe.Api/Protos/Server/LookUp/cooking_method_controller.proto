@@ -52,12 +52,6 @@ message GetCookingMethodModel {
   int32 id = 1;
 }
 
-message CookingMethodModel {
-  int32 id = 1;
-  string name = 2;
-  StatusModel status = 3;
-}
-
 message AddCookingMethodModel {
   string name = 1;
 }
