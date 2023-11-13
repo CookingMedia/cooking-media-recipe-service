@@ -13,11 +13,18 @@ public class MapperProfile : Profile
         CreateMap<CookingMethod, UpdateCookingMethodModel>().ReverseMap();
         // TODO: mapp status
 
-        CreateMap<EntityModels.Recipe, RecipeModel>().ReverseMap();
+        CreateMap<EntityModels.Recipe, RecipeModel>();
+        CreateMap<RecipeCategory, RecipeCategoryModel>();
+        CreateMap<RecipeStyle, RecipeStyleModel>();
+        CreateMap<RecipeStep, StepModel>();
+        CreateMap<RecipeAmount, AmountModel>();
         CreateMap<AddRecipeRequest, EntityModels.Recipe>();
-        CreateMap<AddRecipeStepRequest, RecipeStep>();
+        CreateMap<AddRecipeRequest.Types.AddRecipeStepRequest, RecipeStep>();
+        CreateMap<AddRecipeRequest.Types.AddRecipeAmountRequest, RecipeAmount>();
+        CreateMap<UpdateRecipeRequest, EntityModels.Recipe>();
         CreateMap<AddRecipeAmountRequest, RecipeAmount>();
-        CreateMap<RecipeStep, RecipeModel.Types.StepModel>();
-        CreateMap<RecipeAmount, RecipeModel.Types.AmountModel>();
+        CreateMap<UpdateRecipeAmountRequest, RecipeAmount>();
+        CreateMap<AddRecipeStepRequest, RecipeStep>();
+        CreateMap<UpdateRecipeStepRequest, RecipeStep>();
     }
 }

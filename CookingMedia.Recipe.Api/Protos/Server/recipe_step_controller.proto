@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option csharp_namespace = "CookingMedia.Recipe.Api";
+import "Google/Api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "model.proto";
+package greet;
+
+service RecipeStepController {
+	rpc Add (AddRecipeStepRequest) returns (StepModel) {
+		option (google.api.http) = {
+			post: "/api/steps"
+			body: "*"
+		};
+	};
+
+	rpc Update (UpdateRecipeStepRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			put: "/api/steps/{id}"
+			body: "*"
+		};
+	};
+
+	rpc Delete (DeleteRecipeStepRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/api/steps/{id}"
+		};
+	};
+}
+
+message AddRecipeStepRequest {
+	int32 index = 1;
+	string media_url = 2;
+	string description = 3;
+	int32 recipe_id = 4;
+}
+
+message UpdateRecipeStepRequest {
+	int32 id = 1;
+	int32 index = 2;
+	string media_url = 3;
+	string description = 4;
+}
+
+message DeleteRecipeStepRequest {
+	int32 id = 1;
+}

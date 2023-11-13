@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option csharp_namespace = "CookingMedia.Recipe.Api";
+import "Google/Api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "model.proto";
+package greet;
+
+service RecipeAmountController {
+	rpc Add (AddRecipeAmountRequest) returns (AmountModel) {
+		option (google.api.http) = {
+			post: "/api/amounts"
+			body: "*"
+		};
+	};
+
+	rpc Update (UpdateRecipeAmountRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			put: "/api/amounts/{id}"
+			body: "*"
+		};
+	};
+
+	rpc Delete (DeleteRecipeAmountRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/api/amounts/{id}"
+		};
+	};
+}
+
+message AddRecipeAmountRequest {
+	int32 ingredient_id = 1;
+	string amount = 2;
+	int32 recipe_id = 3;
+}
+
+message UpdateRecipeAmountRequest {
+	int32 id = 1;
+	int32 ingredient_id = 2;
+	string amount = 3;
+}
+
+message DeleteRecipeAmountRequest {
+	int32 id = 1;
+}

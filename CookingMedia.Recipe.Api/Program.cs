@@ -20,6 +20,8 @@ builder.Services.AddGrpc().AddJsonTranscoding();
 builder.Services
     .AddTransient<UnitOfWork>()
     .AddScoped<RecipeService>()
+    .AddScoped<RecipeStepService>()
+    .AddScoped<RecipeAmountService>()
     .AddScoped<CookingMethodService>();
 
 var app = builder.Build();
@@ -28,6 +30,8 @@ var app = builder.Build();
 app.MapGrpcService<RecipeGreeterService>();
 app.MapGrpcService<Controllers.CookingMethodController>();
 app.MapGrpcService<Controllers.RecipeController>();
+app.MapGrpcService<Controllers.RecipeStepController>();
+app.MapGrpcService<Controllers.RecipeAmountController>();
 app.MapGet(
     "/",
     () =>
