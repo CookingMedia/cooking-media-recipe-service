@@ -13,6 +13,55 @@ message HelloReply {
   string message = 1;
 }
 
+message RecipeModel {
+	int32 id = 100;
+
+	RecipeCategoryModel recipe_category = 1;
+	RecipeStyleModel recipe_style = 2;
+	CookingMethodModel cooking_method = 3;
+
+	string name = 10;
+	string image_link = 4;
+	int32 cooking_time = 5;
+	string description = 6;
+	int32 serving_size = 7;
+	repeated StepModel steps = 8;
+	repeated AmountModel amounts = 9;
+	int32 status = 11;
+}
+
+message StepModel {
+	int32 id = 100;
+	int32 index = 1;
+	string media_url = 2;
+	string description = 3;
+}
+
+message AmountModel {
+	int32 id = 100;
+	string amount = 1;
+	Ingredient intgredient = 2;
+}
+
+message CookingMethodModel {
+  int32 id = 1;
+  string name = 2;
+  StatusModel status = 3;
+}
+
+message RecipeCategoryModel {
+	int32 id = 1;
+	string name = 2;
+	int32 display_index = 3;
+	StatusModel status = 4;
+}
+
+message RecipeStyleModel {
+	int32 id = 1;
+	string name = 2;
+	StatusModel status = 3;
+}
+
 message Ingredient {
   int32 id = 1;
   int32 ingredient_category_id = 2;

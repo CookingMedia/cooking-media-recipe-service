@@ -2,6 +2,7 @@ syntax = "proto3";
 
 option csharp_namespace = "CookingMedia.Recipe.Api";
 import "Google/Api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "model.proto";
 package greet;
 
@@ -9,4 +10,90 @@ service RecipeController {
   // TODO: create, read one, read list filter, update, delete recipe
   // TODO: get list of recipe step
   // TODO: get list of recipe amount
+  rpc Search (SearchRecipeRequest) returns (SearchRecipeResponse) {
+	option (google.api.http) = {
+	  get: "/api/recipes"
+	};
+  };
+
+  rpc Get (GetRecipeRequest) returns (RecipeModel) {
+	option (google.api.http) = {
+	  get: "/api/recipes/{id}"
+	};
+  };
+
+  rpc Add (AddRecipeRequest) returns (RecipeModel) {
+	option (google.api.http) = {
+	  post: "/api/recipes"
+	  body: "*"
+	};
+  };
+
+  rpc Update (UpdateRecipeRequest) returns (google.protobuf.Empty) {
+	option (google.api.http) = {
+	  put: "/api/recipes/{id}"
+	  body: "*"
+	};
+  };
+
+  rpc Delete (DeleteRecipeRequest) returns (google.protobuf.Empty) {
+	option (google.api.http) = {
+	  delete: "/api/recipes/{id}"
+	};
+  };
+}
+
+message SearchRecipeRequest {
+	string name = 1;
+	int32 recipe_category_id = 2;
+	int32 recipe_style_id = 3;
+	int32 cooking_method_id = 4;
+}
+
+message SearchRecipeResponse {
+	repeated RecipeModel recipes = 1;
+}
+
+message GetRecipeRequest {
+	int32 id = 1;
+}
+
+message AddRecipeRequest {
+	int32 recipe_category_id = 1;
+	int32 recipe_style_id = 2;
+	int32 cooking_method_id = 3;
+	string image_link = 4;
+	int32 cooking_time = 5;
+	string description = 6;
+	int32 serving_size = 7;
+	repeated AddRecipeStepRequest steps = 8;
+	repeated AddRecipeAmountRequest amounts = 9;
+	string name = 10;
+
+	message AddRecipeStepRequest {
+		int32 index = 1;
+		string media_url = 2;
+		string description = 3;
+	}
+
+	message AddRecipeAmountRequest {
+		int32 ingredient_id = 1;
+		string amount = 2;
+	}
+}
+
+message UpdateRecipeRequest {
+	int32 id = 100;
+	int32 recipe_category_id = 1;
+	int32 recipe_style_id = 2;
+	int32 cooking_method_id = 3;
+	string image_link = 4;
+	int32 cooking_time = 5;
+	string description = 6;
+	int32 serving_size = 7;
+	string name = 8;
+}
+
+message DeleteRecipeRequest {
+	int32 id = 1;
 }

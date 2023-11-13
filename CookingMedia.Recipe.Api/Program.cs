@@ -3,6 +3,7 @@ using CookingMedia.Recipe.Api.Client;
 using CookingMedia.Recipe.Api.Services;
 using CookingMedia.Recipe.Repositories;
 using CookingMedia.Recipe.Services;
+using Controllers = CookingMedia.Recipe.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,12 +20,18 @@ builder.Services.AddGrpc().AddJsonTranscoding();
 builder.Services
     .AddTransient<UnitOfWork>()
     .AddScoped<RecipeService>()
+    .AddScoped<RecipeStepService>()
+    .AddScoped<RecipeAmountService>()
     .AddScoped<CookingMethodService>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.MapGrpcService<RecipeGreeterService>();
+app.MapGrpcService<Controllers.CookingMethodController>();
+app.MapGrpcService<Controllers.RecipeController>();
+app.MapGrpcService<Controllers.RecipeStepController>();
+app.MapGrpcService<Controllers.RecipeAmountController>();
 app.MapGet(
     "/",
     () =>

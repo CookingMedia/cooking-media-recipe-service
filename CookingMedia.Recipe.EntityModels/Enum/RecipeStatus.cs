@@ -1,6 +1,6 @@
 ﻿namespace CookingMedia.Recipe.EntityModels.Enum;
 
-public enum RecipeStyleStatus
+public enum RecipeStatus
 {
     Enable,
     Disable

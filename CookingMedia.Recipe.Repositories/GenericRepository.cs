@@ -17,20 +17,18 @@ public class GenericRepository<TEntity>
     }
 
     public virtual IEnumerable<TEntity> Get(
-        Expression<Func<TEntity, bool>>? filter = null,
+        IEnumerable<Expression<Func<TEntity, bool>>>? filters = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
         string includeProperties = ""
     )
     {
         IQueryable<TEntity> query = DbSet;
 
-        if (filter != null)
-        {
-            query = query.Where(filter);
-        }
+        if (filters != null)
+            query = filters.Aggregate(query, (current, filter) => current.Where(filter));
 
         query = includeProperties
-            .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
 
         return orderBy != null ? orderBy(query).ToList() : query.ToList();

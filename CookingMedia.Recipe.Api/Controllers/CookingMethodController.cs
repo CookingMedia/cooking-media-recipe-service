@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CookingMedia.Recipe.Api.Model;
 using CookingMedia.Recipe.EntityModels.Enum;
 using CookingMedia.Recipe.EntityModels.LookUp;
 using CookingMedia.Recipe.Services;
@@ -29,7 +30,7 @@ public class CookingMethodController : Api.CookingMethodController.CookingMethod
             throw new RpcException(
                 new Status(StatusCode.NotFound, $"Cooking method not found. Id {request.Id}")
             );
-        Enum.TryParse<Model.Status>(cookingMethod.Status.ToString(), true, out var status);
+        Enum.TryParse<Model.StatusModel>(cookingMethod.Status.ToString(), true, out var status);
         var result = new CookingMethodModel
         {
             Id = cookingMethod.Id,

@@ -1,6 +1,7 @@
 ﻿using CookingMedia.Recipe.EntityModels.LookUp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace CookingMedia.Recipe.EntityModels;
 
@@ -15,7 +16,9 @@ public class CookingMediaRecipeDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var options = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        //var options = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        // Get ConnectionStrings from secret.json instead
+        var options = new ConfigurationBuilder().AddUserSecrets(Assembly.GetExecutingAssembly(), true).Build();
         var str = options.GetConnectionString("DefaultConnection");
         optionsBuilder.UseSqlServer(str);
     }

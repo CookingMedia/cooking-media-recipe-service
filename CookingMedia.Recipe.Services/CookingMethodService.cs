@@ -1,11 +1,12 @@
-﻿using CookingMedia.Recipe.EntityModels.LookUp;
+﻿using System.Linq.Expressions;
+using CookingMedia.Recipe.EntityModels.LookUp;
 using CookingMedia.Recipe.Repositories;
 
 namespace CookingMedia.Recipe.Services;
 
 public class CookingMethodService
 {
-    private UnitOfWork _unitOfWork;
+    private readonly UnitOfWork _unitOfWork;
 
     public CookingMethodService(UnitOfWork unitOfWork)
     {
@@ -30,7 +31,8 @@ public class CookingMethodService
 
     public IEnumerable<CookingMethod> Search(string name)
     {
-        return _unitOfWork.CookingMethods.Get(x => x.Name.Contains(name));
+        return _unitOfWork.CookingMethods.Get(
+            new Expression<Func<CookingMethod, bool>>[] { x => x.Name.Contains(name) });
     }
 
     public void Update(CookingMethod cookingMethod)
