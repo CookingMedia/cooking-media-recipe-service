@@ -19,7 +19,7 @@ service CookingMethodController {
     };
   };
   
-  rpc Add (AddCookingMethodModel) returns (AddCookingMethodResult) {
+  rpc Add (AddCookingMethodModel) returns (CookingMethodModel) {
     option (google.api.http) = {
       post: "/api/cooking-methods"
       body: "*"
@@ -41,11 +41,14 @@ service CookingMethodController {
 }
 
 message SearchCookingMethodModel {
-  string name = 1;
+    string name = 1;
+    int32 page = 2;
+    int32 page_size = 3;
 }
 
 message SearchCookingMethodResult {
-  repeated CookingMethodModel result = 1;
+    repeated CookingMethodModel result = 1;
+    PagingResultModel paging = 2;
 }
 
 message GetCookingMethodModel {
@@ -56,16 +59,8 @@ message AddCookingMethodModel {
   string name = 1;
 }
 
-message AddCookingMethodResult {
-  int32 id = 1;
-}
-
 message UpdateCookingMethodModel {
   int32 id = 1;
   string name = 2;
   StatusModel status = 3;
-}
-
-message UpdateCookingMethodResult {
-  int32 id = 1;
 }

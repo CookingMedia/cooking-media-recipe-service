@@ -1,4 +1,6 @@
 ﻿using System.Linq.Expressions;
+using CookingMedia.Recipe.EntityModels.Dto.Requests;
+using CookingMedia.Recipe.EntityModels.Dto.Responses;
 using CookingMedia.Recipe.EntityModels.LookUp;
 using CookingMedia.Recipe.Repositories;
 
@@ -29,10 +31,11 @@ public class CookingMethodService
         _unitOfWork.Save();
     }
 
-    public IEnumerable<CookingMethod> Search(string name)
+    public PageResult<CookingMethod> Search(SearchCookingMethodRequest request)
     {
-        return _unitOfWork.CookingMethods.Get(
-            new Expression<Func<CookingMethod, bool>>[] { x => x.Name.Contains(name) });
+        return _unitOfWork.CookingMethods.Get(request,
+            new Expression<Func<CookingMethod, bool>>[] { x => x.Name.Contains(request.Name) },
+            o => o.OrderBy(e => e.Name));
     }
 
     public void Update(CookingMethod cookingMethod)

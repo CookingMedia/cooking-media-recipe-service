@@ -25,11 +25,9 @@ public class CookingMethodController : Api.CookingMethodController.CookingMethod
         ServerCallContext context
     )
     {
-        var cookingMethod = _cookingMethodService.GetById(request.Id);
-        if (cookingMethod == null)
-            throw new RpcException(
-                new Status(StatusCode.NotFound, $"Cooking method not found. Id {request.Id}")
-            );
+        var cookingMethod = _cookingMethodService.GetById(request.Id) ??
+                            throw new RpcException(new Status(StatusCode.NotFound,
+                                $"Cooking method not found. Id {request.Id}"));
         Enum.TryParse<Model.StatusModel>(cookingMethod.Status.ToString(), true, out var status);
         var result = new CookingMethodModel
         {
@@ -45,14 +43,17 @@ public class CookingMethodController : Api.CookingMethodController.CookingMethod
         ServerCallContext context
     )
     {
-        var cookingMethods = _cookingMethodService
-            .Search(request.Name)
-            .Select(x => _mapper.Map<CookingMethodModel>(x));
-        var result = new SearchCookingMethodResult { Result = { cookingMethods }, };
+        var req = _mapper.Map<EntityModels.Dto.Requests.SearchCookingMethodRequest>(request);
+        var cookingMethods = _cookingMethodService.Search(req);
+        var result = new SearchCookingMethodResult
+        {
+            Result = { _mapper.Map<IEnumerable<CookingMethodModel>>(cookingMethods.Result) },
+            Paging = _mapper.Map<PagingResultModel>(cookingMethods)
+        };
         return Task.FromResult(result);
     }
 
-    public override Task<AddCookingMethodResult> Add(
+    public override Task<CookingMethodModel> Add(
         AddCookingMethodModel request,
         ServerCallContext context
     )
@@ -65,13 +66,12 @@ public class CookingMethodController : Api.CookingMethodController.CookingMethod
 
         _cookingMethodService.Add(cookingMethod);
 
-        var result = new AddCookingMethodResult { Id = 1, };
-        return Task.FromResult(result);
+        return Task.FromResult(_mapper.Map<CookingMethodModel>(cookingMethod));
     }
 
     public override Task<Empty> Update(UpdateCookingMethodModel request, ServerCallContext context)
     {
-        if (_cookingMethodService.ExistById(request.Id))
+        if (!_cookingMethodService.ExistById(request.Id))
             throw new RpcException(
                 new Status(StatusCode.NotFound, $"Cooking method not found. Id {request.Id}")
             );

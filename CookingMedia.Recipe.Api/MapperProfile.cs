@@ -14,6 +14,7 @@ public class MapperProfile : Profile
         CreateMap<SearchRecipeRequest, EntityModels.Dto.Requests.SearchRecipeRequest>();
         CreateMap<SearchRecipeCategoryRequest, EntityModels.Dto.Requests.SearchRecipeCategoryRequest>();
         CreateMap<SearchRecipeStyleRequest, EntityModels.Dto.Requests.SearchRecipeStyleRequest>();
+        CreateMap<SearchCookingMethodModel, EntityModels.Dto.Requests.SearchCookingMethodRequest>();
 
         CreateMap<CookingMethod, CookingMethodModel>().ReverseMap();
         CreateMap<CookingMethod, UpdateCookingMethodModel>().ReverseMap();
