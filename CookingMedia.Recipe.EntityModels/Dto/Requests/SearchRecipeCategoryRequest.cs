@@ -5,11 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CookingMedia.Recipe.EntityModels.Dto.Requests;
-
-public class SearchRecipeRequest : PageRequest
+public class SearchRecipeCategoryRequest : PageRequest
 {
     public string Name { get; set; } = string.Empty;
-    public int RecipeCategoryId { get; set; }
-    public int RecipeStyleId { get; set; }
-    public int CookingMethodId { get; set; }
 }

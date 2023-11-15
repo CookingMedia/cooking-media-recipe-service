@@ -19,6 +19,13 @@ public class UnitOfWork : IDisposable
     private RecipeAmountRepository? _recipeAmountRepository;
     public RecipeAmountRepository RecipeAmounts => _recipeAmountRepository ??= new RecipeAmountRepository(_context);
 
+    private RecipeCategoryRepository? _recipeCategoryRepository;
+    public RecipeCategoryRepository RecipeCategories =>
+        _recipeCategoryRepository ??= new RecipeCategoryRepository(_context);
+
+    private RecipeStyleRepository? _recipeStyleRepository;
+    public RecipeStyleRepository RecipeStyles => _recipeStyleRepository ??= new RecipeStyleRepository(_context);
+
     public async Task SaveAsync()
     {
         await _context.SaveChangesAsync();

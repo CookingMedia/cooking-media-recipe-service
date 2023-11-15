@@ -22,7 +22,9 @@ builder.Services
     .AddScoped<RecipeService>()
     .AddScoped<RecipeStepService>()
     .AddScoped<RecipeAmountService>()
-    .AddScoped<CookingMethodService>();
+    .AddScoped<CookingMethodService>()
+    .AddScoped<RecipeCategoryService>()
+    .AddScoped<RecipeStyleService>();
 
 var app = builder.Build();
 
@@ -32,6 +34,8 @@ app.MapGrpcService<Controllers.CookingMethodController>();
 app.MapGrpcService<Controllers.RecipeController>();
 app.MapGrpcService<Controllers.RecipeStepController>();
 app.MapGrpcService<Controllers.RecipeAmountController>();
+app.MapGrpcService<Controllers.RecipeCategoryController>();
+app.MapGrpcService<Controllers.RecipeStyleController>();
 app.MapGet(
     "/",
     () =>
