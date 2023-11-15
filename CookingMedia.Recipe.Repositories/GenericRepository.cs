@@ -1,5 +1,7 @@
 ﻿using System.Linq.Expressions;
 using CookingMedia.Recipe.EntityModels;
+using CookingMedia.Recipe.EntityModels.Dto.Requests;
+using CookingMedia.Recipe.EntityModels.Dto.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace CookingMedia.Recipe.Repositories;
@@ -32,6 +34,28 @@ public class GenericRepository<TEntity>
             .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
 
         return orderBy != null ? orderBy(query).ToList() : query.ToList();
+    }
+
+    public virtual PageResult<TEntity> Get(
+        PageRequest pageRequest,
+        IEnumerable<Expression<Func<TEntity, bool>>>? filters = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        string includeProperties = ""
+    )
+    {
+        IQueryable<TEntity> query = DbSet;
+
+        if (filters != null)
+            query = filters.Aggregate(query, (current, filter) => current.Where(filter));
+
+        query = includeProperties
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+
+        query = orderBy != null ? orderBy(query) : query;
+
+        var result = query.AddPaging(pageRequest).ToPageResult();
+        return result;
     }
 
     public virtual TEntity? GetById(object id)

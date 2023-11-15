@@ -48,10 +48,13 @@ message SearchRecipeRequest {
 	int32 recipe_category_id = 2;
 	int32 recipe_style_id = 3;
 	int32 cooking_method_id = 4;
+	int32 page = 5;
+	int32 page_size = 6;
 }
 
 message SearchRecipeResponse {
-	repeated RecipeModel recipes = 1;
+	repeated RecipeModel result = 1;
+	PagingResultModel paging = 2;
 }
 
 message GetRecipeRequest {

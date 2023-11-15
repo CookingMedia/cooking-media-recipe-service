@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CookingMedia.Recipe.Api.Model;
 using CookingMedia.Recipe.EntityModels;
+using CookingMedia.Recipe.EntityModels.Dto.Requests;
+using CookingMedia.Recipe.EntityModels.Dto.Responses;
 using CookingMedia.Recipe.EntityModels.LookUp;
 
 namespace CookingMedia.Recipe.Api;
@@ -9,9 +11,14 @@ public class MapperProfile : Profile
 {
     public MapperProfile()
     {
+        CreateMap(typeof(PageResult<>), typeof(PagingResultModel));
+        // CreateMap<SearchRecipeRequest, PageRequest>();
+        CreateMap<SearchRecipeRequest, EntityModels.Dto.Requests.SearchRecipeRequest>();
+            // .IncludeBase<SearchRecipeRequest, PageRequest>();
+
         CreateMap<CookingMethod, CookingMethodModel>().ReverseMap();
         CreateMap<CookingMethod, UpdateCookingMethodModel>().ReverseMap();
-        // TODO: mapp status
+        // TODO: map status
 
         CreateMap<EntityModels.Recipe, RecipeModel>();
         CreateMap<RecipeCategory, RecipeCategoryModel>();

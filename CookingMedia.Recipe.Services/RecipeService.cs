@@ -1,4 +1,6 @@
 ﻿using System.Linq.Expressions;
+using CookingMedia.Recipe.EntityModels.Dto.Requests;
+using CookingMedia.Recipe.EntityModels.Dto.Responses;
 using CookingMedia.Recipe.Repositories;
 
 namespace CookingMedia.Recipe.Services;
@@ -19,9 +21,16 @@ public class RecipeService
         return recipe;
     }
 
-    public IEnumerable<EntityModels.Recipe> Get(IEnumerable<Expression<Func<EntityModels.Recipe, bool>>>? filter = null)
+    public PageResult<EntityModels.Recipe> Get(SearchRecipeRequest request)
     {
-        return _unitOfWork.Recipes.Get(filter, order => order.OrderByDescending(r => r.Id),
+        var filters = new List<Expression<Func<EntityModels.Recipe, bool>>> { r => r.Name.Contains(request.Name) };
+        if (request.CookingMethodId != 0)
+            filters.Add(r => r.CookingMethodId == request.CookingMethodId);
+        if (request.RecipeCategoryId != 0)
+            filters.Add(r => r.RecipeCategoryId == request.RecipeCategoryId);
+        if (request.RecipeStyleId != 0)
+            filters.Add(r => r.RecipeStyleId == request.RecipeStyleId);
+        return _unitOfWork.Recipes.Get(request, filters, order => order.OrderByDescending(r => r.Id),
             $"{nameof(EntityModels.Recipe.RecipeCategory)}," +
             $"{nameof(EntityModels.Recipe.RecipeStyle)}," +
             $"{nameof(EntityModels.Recipe.CookingMethod)}");

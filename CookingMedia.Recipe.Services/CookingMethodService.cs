@@ -41,9 +41,9 @@ public class CookingMethodService
         _unitOfWork.Save();
     }
 
-    public void Delete(int Id)
+    public void Delete(int id)
     {
-        _unitOfWork.CookingMethods.Delete(Id);
+        _unitOfWork.CookingMethods.Delete(id);
         _unitOfWork.Save();
     }
 }

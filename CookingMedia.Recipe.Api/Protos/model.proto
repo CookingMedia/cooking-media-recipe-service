@@ -74,6 +74,13 @@ message IngredientCategory {
   string name = 2;
 }
 
+message PagingResultModel {
+  int32 page = 1;
+  int32 size = 2;
+  int32 total = 3;
+  int32 pageCount = 4;
+}
+
 enum StatusModel {
   Enable = 0;
   Disable = 1;

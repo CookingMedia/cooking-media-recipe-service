@@ -20,17 +20,12 @@ public class RecipeController : Api.RecipeController.RecipeControllerBase
 
     public override Task<SearchRecipeResponse> Search(SearchRecipeRequest request, ServerCallContext context)
     {
-        var filters = new List<Expression<Func<EntityModels.Recipe, bool>>> { r => r.Name.Contains(request.Name) };
-        if (request.CookingMethodId != 0)
-            filters.Add(r => r.CookingMethodId == request.CookingMethodId);
-        if (request.RecipeCategoryId != 0)
-            filters.Add(r => r.RecipeCategoryId == request.RecipeCategoryId);
-        if (request.RecipeStyleId != 0)
-            filters.Add(r => r.RecipeStyleId == request.RecipeStyleId);
-        var recipe = _recipeService.Get(filters);
+        var req = _mapper.Map<EntityModels.Dto.Requests.SearchRecipeRequest>(request);
+        var recipes = _recipeService.Get(req);
         var res = new SearchRecipeResponse
         {
-            Recipes = { _mapper.Map<IEnumerable<RecipeModel>>(recipe) }
+            Result = { _mapper.Map<IEnumerable<RecipeModel>>(recipes.Result) },
+            Paging = _mapper.Map<PagingResultModel>(recipes)
         };
         return Task.FromResult(res);
     }
