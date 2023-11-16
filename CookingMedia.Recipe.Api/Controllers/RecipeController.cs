@@ -4,6 +4,7 @@ using CookingMedia.Recipe.Services;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System.Linq.Expressions;
+using CookingMedia.Recipe.Api.Client;
 
 namespace CookingMedia.Recipe.Api.Controllers;
 
@@ -11,11 +12,16 @@ public class RecipeController : Api.RecipeController.RecipeControllerBase
 {
     private readonly RecipeService _recipeService;
     private readonly IMapper _mapper;
+    private readonly IngredientController.IngredientControllerClient _ingredientControllerClient;
+    private readonly ILogger<RecipeController> _logger;
 
-    public RecipeController(RecipeService recipeService, IMapper mapper)
+    public RecipeController(RecipeService recipeService, IMapper mapper,
+        IngredientController.IngredientControllerClient ingredientControllerClient, ILogger<RecipeController> logger)
     {
         _recipeService = recipeService;
         _mapper = mapper;
+        _ingredientControllerClient = ingredientControllerClient;
+        _logger = logger;
     }
 
     public override Task<SearchRecipeResponse> Search(SearchRecipeRequest request, ServerCallContext context)
@@ -34,7 +40,22 @@ public class RecipeController : Api.RecipeController.RecipeControllerBase
     {
         var recipe = _recipeService.GetById(request.Id)
                      ?? throw new RpcException(new Status(StatusCode.NotFound, "Recipe not found"));
-        return Task.FromResult(_mapper.Map<RecipeModel>(recipe));
+        var model = _mapper.Map<RecipeModel>(recipe);
+        foreach (var amount in model.Amounts)
+        {
+            try
+            {
+                var id = recipe.Amounts.FirstOrDefault(a => a.Id == amount.Id)?.IngredientId;
+                if (id != null)
+                    amount.Intgredient = _ingredientControllerClient.Get(new GetIngredientRequest { Id = id.Value });
+            }
+            catch (RpcException ex)
+            {
+                _logger.LogError(ex, $"Ingredient#{amount.Id} not found");
+            }
+        }
+
+        return Task.FromResult(model);
     }
 
     public override Task<Empty> Update(UpdateRecipeRequest request, ServerCallContext context)
@@ -54,6 +75,12 @@ public class RecipeController : Api.RecipeController.RecipeControllerBase
 
     public override Task<RecipeModel> Add(AddRecipeRequest request, ServerCallContext context)
     {
+        // Check if ingredients exist
+        foreach (var amount in request.Amounts)
+        {
+            _ingredientControllerClient.Get(new GetIngredientRequest { Id = amount.IngredientId });
+        }
+
         var recipe = _mapper.Map<EntityModels.Recipe>(request);
         var result = _recipeService.Add(recipe);
         return Task.FromResult(_mapper.Map<RecipeModel>(result));

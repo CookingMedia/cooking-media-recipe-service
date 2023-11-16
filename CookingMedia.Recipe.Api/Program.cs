@@ -1,6 +1,5 @@
 using CookingMedia.Recipe.Api;
 using CookingMedia.Recipe.Api.Client;
-using CookingMedia.Recipe.Api.Services;
 using CookingMedia.Recipe.Repositories;
 using CookingMedia.Recipe.Services;
 using Controllers = CookingMedia.Recipe.Api.Controllers;
@@ -8,7 +7,7 @@ using Controllers = CookingMedia.Recipe.Api.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 var serviceHost = builder.Configuration.GetSection("Services");
-builder.Services.AddGrpcClient<IngredientGreeter.IngredientGreeterClient>(o =>
+builder.Services.AddGrpcClient<IngredientController.IngredientControllerClient>(o =>
 {
     o.Address = serviceHost.GetValue<Uri>("IngredientHost");
 });
@@ -29,7 +28,6 @@ builder.Services
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<RecipeGreeterService>();
 app.MapGrpcService<Controllers.CookingMethodController>();
 app.MapGrpcService<Controllers.RecipeController>();
 app.MapGrpcService<Controllers.RecipeStepController>();

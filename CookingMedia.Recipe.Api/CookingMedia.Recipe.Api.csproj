@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
@@ -22,8 +22,6 @@
         </Protobuf>
         <Protobuf Include="Protos\Server\**\*.proto" GrpcServices="Server" ProtoRoot="Protos" />
         <Protobuf Include="Protos\Client\**\*.proto" GrpcServices="Client" ProtoRoot="Protos" />
-        <None Remove="Protos\Server\recipe_amount_controller.proto" />
-        <None Remove="protos\server\recipe_step_controller.proto" />
         <Protobuf Include="Protos\model.proto" GrpcServices="None" ProtoRoot="Protos" />
     </ItemGroup>
 

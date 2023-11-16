@@ -40,7 +40,7 @@ message StepModel {
 message AmountModel {
 	int32 id = 100;
 	string amount = 1;
-	Ingredient intgredient = 2;
+	IngredientModel intgredient = 2;
 }
 
 message CookingMethodModel {
@@ -62,16 +62,17 @@ message RecipeStyleModel {
 	StatusModel status = 3;
 }
 
-message Ingredient {
-  int32 id = 1;
-  int32 ingredient_category_id = 2;
-  string name = 3;
-  string image = 4;
-}
-
-message IngredientCategory {
+message IngredientModel {
   int32 id = 1;
   string name = 2;
+  string image = 3;
+  IngredientCategoryModel ingredientCategory = 4;
+}
+
+message IngredientCategoryModel {
+  int32 id = 1;
+  string name = 2;
+  StatusModel status = 3;
 }
 
 message PagingResultModel {
