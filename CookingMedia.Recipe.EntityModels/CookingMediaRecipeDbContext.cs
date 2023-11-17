@@ -19,7 +19,7 @@ public class CookingMediaRecipeDbContext : DbContext
         //var options = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
         // Get ConnectionStrings from secret.json instead
         var options = new ConfigurationBuilder().AddUserSecrets(Assembly.GetExecutingAssembly(), true).Build();
-        var str = options.GetConnectionString("DefaultConnection");
+        var str = options["Connection_String"] ?? Environment.GetEnvironmentVariable("Connection_String");
         optionsBuilder.UseSqlServer(str);
     }
 }
